@@ -9,7 +9,7 @@
             @foreach($groups as $group)
                 <li>
                     <a href="{{ route('catalog.group', $group->id) }}">{{ $group->name }}</a>
-                    ({{ $group->products->count() }}) {{-- временно, позже добавим учёт подгрупп --}}
+                    ({{ $group->totalProductCount() }})
                 </li>
             @endforeach
         </ul>
