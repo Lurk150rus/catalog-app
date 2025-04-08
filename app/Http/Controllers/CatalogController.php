@@ -55,4 +55,44 @@ class CatalogController extends Controller
         return view('catalog.product', compact('product', 'breadcrumbs'));
     }
 
+    public function loadMoreProducts(Request $request)
+    {
+        $sortField = $request->input('sort', 'name');
+        $sortDir = $request->input('dir', 'asc');
+        $groupId = $request->input('group');
+        $perPage = 10;
+
+        $query = Product::with('price')
+            ->leftJoin('prices as price', 'products.id', '=', 'price.id_product')
+            ->select('products.*');
+
+        if ($groupId) {
+            $group = Group::with('children', 'parent')->findOrFail($groupId);
+
+            $groupIds = $group->getAllDescendantIds();
+            $groupIds[] = $group->id;
+
+            $query->whereIn('id_group', $groupIds);
+        }
+
+        $products = $query->orderBy($sortField === 'price' ? 'price.price' : 'name', $sortDir)
+            ->paginate($perPage);
+
+        $html = '';
+        foreach ($products as $product) {
+            $html .= view('partials.product-card', compact('product'))->render();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'html' => $html,
+            'count_loaded' => $products->count(),
+            'count_total' => $products->total(),
+            'first_item' => $products->firstItem(),
+            'last_item' => $products->lastItem(),
+            'has_more_pages' => $products->hasMorePages(),
+        ]);
+    }
+
+
 }
