@@ -24,6 +24,13 @@
                 <option value="desc" {{ $sortDir === 'desc' ? 'selected' : '' }}>↓</option>
             </select>
             <button type="submit" class="btn btn-primary btn-sm">Сортировать</button>
+
+            <select name="perPage" onchange="this.form.submit()">
+                <option value="6" {{ request('perPage') == 6 ? 'selected' : '' }}>Показывать по 6</option>
+                <option value="12" {{ request('perPage') == 12 ? 'selected' : '' }}>Показывать по 12</option>
+                <option value="18" {{ request('perPage') == 18 ? 'selected' : '' }}>Показывать по 18</option>
+            </select>
+
         </form>
 
         <div id="product-list" class="row">

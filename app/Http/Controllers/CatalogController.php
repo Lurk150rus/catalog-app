@@ -37,9 +37,11 @@ class CatalogController extends Controller
             $query->whereIn('id_group', $groupIds);
         }
 
+        $perPage = $request->input('perPage', 6);
 
         $products = $query->orderBy($sortField === 'price' ? 'price.price' : 'name', $sortDir)
-            ->paginate(10);
+            ->paginate($perPage)
+            ->appends($request->query());
 
         return view('catalog.index', compact(
             'rootGroups', 'products', 'sortField', 'sortDir', 'groupId', 'expandedGroupIds'
