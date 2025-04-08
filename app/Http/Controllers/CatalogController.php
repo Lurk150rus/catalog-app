@@ -46,5 +46,13 @@ class CatalogController extends Controller
         ));
     }
 
+    public function product($id)
+    {
+        $product = Product::with(['price', 'group.parent'])->findOrFail($id);
+
+        $breadcrumbs = $product->group->getBreadcrumbs();
+
+        return view('catalog.product', compact('product', 'breadcrumbs'));
+    }
 
 }

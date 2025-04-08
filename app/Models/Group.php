@@ -60,4 +60,16 @@ class Group extends Model
         return array_reverse($ids); // от корня к текущей
     }
 
+
+    public function getBreadcrumbs()
+    {
+        $breadcrumbs = [];
+        $group = $this;
+        while ($group) {
+            $breadcrumbs[] = $group;
+            $group = $group->parent;
+        }
+        return array_reverse($breadcrumbs);
+    }
+
 }
