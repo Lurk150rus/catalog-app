@@ -4,18 +4,17 @@
     <div class="container">
         <h1>Каталог</h1>
 
-        <h3>Группы товаров</h3>
-        <ul>
-            @foreach($groups as $group)
-                <li>
-                    <a href="{{ route('catalog.group', $group->id) }}">{{ $group->name }}</a>
-                    ({{ $group->totalProductCount() }})
-                </li>
-            @endforeach
-        </ul>
+        <h3>Группы</h3>
+        @include('partials.group-tree', [
+            'groups' => $rootGroups,
+            'activeGroup' => $currentGroup ?? null
+        ])
 
         <h3>Товары</h3>
         <form method="GET" class="mb-3">
+            @if(request()->has('group'))
+                <input type="hidden" name="group" value="{{ request()->get('group') }}">
+            @endif
             <select name="sort">
                 <option value="name" {{ $sortField === 'name' ? 'selected' : '' }}>По названию</option>
                 <option value="price" {{ $sortField === 'price' ? 'selected' : '' }}>По цене</option>
@@ -26,6 +25,7 @@
             </select>
             <button type="submit" class="btn btn-primary btn-sm">Сортировать</button>
         </form>
+
 
         <div class="row">
             @foreach($products as $product)

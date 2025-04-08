@@ -39,4 +39,25 @@ class Group extends Model
         return Product::whereIn('id_group', $ids)->count();
     }
 
+    public function getAllDescendantIds()
+    {
+        $ids = [];
+        foreach ($this->children as $child) {
+            $ids[] = $child->id;
+            $ids = array_merge($ids, $child->getAllDescendantIds());
+        }
+        return $ids;
+    }
+
+    public function getParentIds()
+    {
+        $ids = [];
+        $group = $this;
+        while ($group->parent) {
+            $group = $group->parent;
+            $ids[] = $group->id;
+        }
+        return array_reverse($ids); // от корня к текущей
+    }
+
 }
