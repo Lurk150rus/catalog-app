@@ -1,66 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+💛 Laravel Catalog App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Добрый день! Меня зовут Кирилл Сасык и это моё тестовое задание на позицию junior PHP-разработчика.
+Надеюсь, вам будет приятно посмотреть результат 🙏
+https://hh.ru/applicant/resumes/view?resume=1dbb57c6ff0ddf56690039ed1f5773746a7746
 
-## About Laravel
+🚀 Что получилось:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Главная страница с категориями товаров (группами первого уровня);
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Счётчик товаров в каждой группе, включая все вложенные подгруппы;
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Список товаров с постраничной навигацией (по 6 штук на страницу);
 
-## Learning Laravel
+Сортировка по цене и названию (по возрастанию и убыванию);
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Можно провалиться в группу и увидеть все её подгруппы и товары внутри;
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Карточка товара с хлебными крошками (от корня до текущей позиции);
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Кнопка "Показать ещё" через AJAX (работает вместе с обычной пагинацией);
 
-## Laravel Sponsors
+Сделано с помощью Bootstrap.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+🐳 Как запустить проект через Docker
 
-### Premium Partners
+Нужно, чтобы у вас был установлен Docker и Docker Compose. Больше ничего не требуется.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Склонировать репозиторий и перейти в него:
 
-## Contributing
+git clone https://github.com/your-user/catalog-app.git
+cd catalog-app
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Скопировать .env и проверить настройки базы данных:
 
-## Code of Conduct
+cp .env.example .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Убедитесь, что в .env указано:
 
-## Security Vulnerabilities
+DB_CONNECTION=mysql
+DB_HOST=mysql_db
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=root
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Поднять контейнеры:
 
-## License
+docker compose up -d --build
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Установить зависимости Laravel:
+
+docker exec -it laravel_app composer install
+
+Сгенерировать ключ приложения:
+
+docker exec -it laravel_app php artisan key:generate
+
+Запустить миграции и сиды:
+
+docker exec -it laravel_app php artisan migrate --seed
+
+Приложение развернеться:
+
+http://localhost:8000
+
+💡 Почему так
+
+Вместо полной AJAX-пагинации я сделал кнопку "Показать ещё" — так проще реализовать и оставить SEO-дружественную навигацию;
+
+Верстка — Bootstrap, сетка товаров — 3 на ряд, всё адаптивно;
+
+Seeder наполняет базу тестовыми товарами, группами и ценами.
+
+🔧 Полезные команды
+
+Перезапуск контейнеров:
+
+docker compose restart
+
+Остановка:
+
+docker compose down
+
+Просмотр логов:
+
+docker compose logs -f
+
+
+Спасибо большое, что посмотрели! Я очень хочу попасть к вам в команду и развиваться как разработчик. Я готов учиться и был бы очень рад возможности развиваться вместе с Вами.
+
+Буду благодарен за обратную связь!
+
+— Кирилл
