@@ -28,7 +28,7 @@ https://hh.ru/applicant/resumes/view?resume=1dbb57c6ff0ddf56690039ed1f5773746a77
 
 Склонировать репозиторий и перейти в него:
 
-git clone https://github.com/your-user/catalog-app.git
+git clone https://github.com:Lurk150rus/catalog-app.git
 cd catalog-app
 
 Скопировать .env и проверить настройки базы данных:
