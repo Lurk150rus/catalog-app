@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
+    use HasFactory;
     public function parent()
     {
         return $this->belongsTo(Group::class, 'id_parent');
@@ -65,10 +67,19 @@ class Group extends Model
     {
         $breadcrumbs = [];
         $group = $this;
-        while ($group) {
+        $maxDepth = 10;
+        $currentDepth = 0;
+
+        while ($group && $currentDepth < $maxDepth) {
             $breadcrumbs[] = $group;
             $group = $group->parent;
+            $currentDepth++;
         }
+
+        if ($currentDepth >= $maxDepth) {
+            throw new \RuntimeException('Maximum breadcrumbs depth exceeded. Possible circular reference.');
+        }
+
         return array_reverse($breadcrumbs);
     }
 

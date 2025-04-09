@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Group;
+use App\Models\Price;
+use App\Models\Product;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,11 +16,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Создаём иерархию групп
+        Group::factory()->count(5)->create(); // Корневые
+        Group::factory()->count(15)->create(); // Подгруппы
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Создаём продукты
+        Product::factory()->count(30)->create()->each(function ($product) {
+            // Для каждого продукта создаём цену
+            Price::factory()->create([
+                'id_product' => $product->id,
+            ]);
+        });
     }
 }
